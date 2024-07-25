@@ -14,7 +14,7 @@ class SendState(State):
         msg.set_metadata("conversation", "pre_consensus_data")
 
         local_weights = self.agent.weights
-        local_losses = self.agent.losses
+        local_losses = self.agent.train_loss
 
         if local_weights is not None or local_losses is not None:
             msg_local_weights = codecs.encode(pickle.dumps(local_weights), "base64").decode()

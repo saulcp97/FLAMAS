@@ -1,5 +1,5 @@
 import spade
-
+import os
 from spade.agent import Agent
 from pathlib import Path
 import networkx as nx
@@ -74,4 +74,5 @@ async def main():
         t.start()
 
 if __name__ == "__main__":
+    
     spade.run(main())

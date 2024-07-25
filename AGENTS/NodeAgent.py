@@ -5,9 +5,12 @@ from spade.agent import Agent
 from spade.template import Template
 
 from spade.behaviour import CyclicBehaviour, State, FSMBehaviour, OneShotBehaviour
-
+from utils.Logger import Logger
 from AGENTS.Behaviours.NODES import Ask, Receive, Training, Send
 from Models.Training import *
+
+
+
 
 class StateMachineBehaviour(FSMBehaviour):
     async def on_start(self):
@@ -27,7 +30,27 @@ class NodeAgent(Agent):
         self.serverJid = sjid
         self.trainer = FederatedLearning(self.name, model=model, dataTrain=dataTrain, dataTest=dataTest)
         self.weights = None
-        self.losses = 0
+
+        self.train_acc = 0
+        self.train_loss = 0
+        self.test_acc = 0
+        self.test_loss = 0
+
+        self.weight_logger = Logger(
+            "Logs/Weight Logs/" + self.name + ".csv", Config.WEIGHT_LOGGER
+        )
+        self.training_logger = Logger(
+            "Logs/Training Logs/" + self.name + ".csv", Config.TRAINING_LOGGER
+        )
+        self.epsilon_logger = Logger(
+            "Logs/Epsilon Logs/" + self.name + ".csv", Config.EPSILON_LOGGER
+        )
+        self.message_logger = Logger(
+            "Logs/Message Logs/" + self.name + ".csv", Config.MESSAGE_LOGGER
+        )
+        self.training_time_logger = Logger(
+            "Logs/Training Time Logs/" + self.name + ".csv", Config.TRAINING_TIME_LOGGER
+        )
 
     def updateWeights(self, nWeights):
         self.weights = nWeights
@@ -51,8 +74,8 @@ class NodeAgent(Agent):
             self.presence.on_available = self.on_available
 
             self.presence.set_available()
-            if self.agent.serverJid is not None:
-                self.presence.subscribe(self.agent.serverJid)
+            self.presence.subscribe(self.agent.serverJid)
+            print("Suscribed, to:", self.agent.serverJid)
 
 
     async def setup(self):

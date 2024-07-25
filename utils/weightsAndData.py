@@ -69,6 +69,32 @@ def apply_consensus(own_weights, neighbour_weights, eps):
 
 
 
+def inference(model, loader):
+    """Returns the test accuracy and loss."""
+    model.eval()
+    loss, total, correct = 0.0, 0.0, 0.0
+
+    criterion = nn.NLLLoss()
+    test_loader = loader
+
+    batch_loss = []
+    for batch_idx, (images, labels) in enumerate(test_loader):
+        #images, labels = images.to(device), labels.to(device)
+
+        # Inference
+        outputs = model(images)
+        loss = criterion(outputs, labels)
+        batch_loss.append(loss.item())
+
+        # Prediction
+        _, pred_labels = torch.max(outputs, 1)
+        pred_labels = pred_labels.view(-1)
+        correct += torch.sum(torch.eq(pred_labels, labels)).item()
+        total += len(labels)
+
+    accuracy = correct / total
+    return accuracy, sum(batch_loss) / len(batch_loss)
+
 # weights = torch.load('model/mnist_cnn.pt')
 # ##torch.save(model.state_dict(), "model/mnist_cnn.pt")
 # weights = copy.deepcopy(weights)

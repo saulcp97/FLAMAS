@@ -11,9 +11,10 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 import torchvision
+from utils.Logger import Logger
 
 from AGENTS.Behaviours.SERVER import Receive, Training, Send, Plot
-
+from AGENTS.Behaviours.PresenceBehaviour import PresenceBehaviour
 class StateMachineBehaviour(FSMBehaviour):
     async def on_start(self):
         print(f"FSM starting at initial state {self.current_state}")
@@ -30,28 +31,9 @@ class CentralAgent(Agent):
         self.partialWeights = []
         self.localEpoch = 0
         self.errors = {}
-        
-    class Behav1(OneShotBehaviour):
-        def on_available(self, jid, stanza):
-            print("[{}] Agent {} is available.".format(self.agent.name, jid.split("@")[0]))
-
-        def on_subscribed(self, jid):
-            print("[{}] Agent {} has accepted the subscription.".format(self.agent.name, jid.split("@")[0]))
-            print("[{}] Contacts List: {}".format(self.agent.name, self.agent.presence.get_contacts()))
-
-        def on_subscribe(self, jid):
-            print("[{}] Agent {} asked for subscription. Let's aprove it.".format(self.agent.name, jid.split("@")[0]))
-            self.presence.approve(jid)
-            self.presence.subscribe(jid)
-            self.agent.connectedNodes.append(jid)
-
-        async def run(self):
-            self.presence.on_subscribe = self.on_subscribe
-            self.presence.on_subscribed = self.on_subscribed
-            self.presence.on_available = self.on_available
-
-            self.presence.set_available()
-
+        self.contacts = []
+        self.available_agents = []
+        self.epsilon_logger = Logger("Logs/Epsilon Logs/" + self.name + ".csv", Config.EPSILON_LOGGER)
     
     async def setup(self):
         self.state_machine_behaviour = StateMachineBehaviour()
@@ -71,5 +53,5 @@ class CentralAgent(Agent):
         state_machine_template.metadata = {"conversation": "pre_consensus_data"}
 
         self.add_behaviour(self.state_machine_behaviour, state_machine_template)
-        self.add_behaviour(self.Behav1())
+        self.add_behaviour(PresenceBehaviour())
         
