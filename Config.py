@@ -31,8 +31,8 @@ COALITION_PROBABILITY = 0.75
 
 SERVER_NAME = "scp_Main_Node"
 
-AGENT_NAMES = ["scp_0", "scp_1", "scp_2", "scp_3", "scp_4", "scp_5"]
-EPOCH_NUM = 10
+AGENT_NAMES = ["scp_0", "scp_1", "scp_2", "scp_3", "scp_4", "scp_5", "scp_6", "scp_7"]
+EPOCH_NUM = 120
 
 # Export the logs and clean log directories
 export_logs_root_path = "../experiment_logs/"

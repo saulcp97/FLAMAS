@@ -27,13 +27,13 @@ class TrainState(State):
 
     def get_accuracy(self):
         self.agent.trainer.model.eval()
-        acc, loss = inference(model=self.agent.trainer.model, loader=self.agent.trainer.train_loader)
+        acc, loss = inference(model=self.agent.trainer.model, criterion=self.agent.trainer.criterion, loader=self.agent.trainer.train_loader)
         #print("[{}] Train Accuracy : {}%".format(self.agent_name, round(acc * 100, 2)))
         #print("[{}] Train Loss : {}".format(self.agent_name, round(loss, 4)))
         #self.train_accuracy.append(acc)
         #self.train_loss.append(loss)
         # Test inference after completion of training
-        test_acc, test_loss = inference(model=self.agent.trainer.model, loader=self.agent.trainer.test_loader)
+        test_acc, test_loss = inference(model=self.agent.trainer.model, criterion=self.agent.trainer.criterion, loader=self.agent.trainer.test_loader)
 
         #print("[{}] Test Accuracy: {}%".format(self.agent_name, round(test_acc * 100, 2)))
         #print("[{}] Test Loss: {}".format(self.agent_name, round(test_loss, 4)))

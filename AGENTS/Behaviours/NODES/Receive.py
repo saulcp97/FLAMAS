@@ -27,5 +27,6 @@ class ReceiveState(State):
 
         while msg is None:
             msg = await self.receive(timeout=20)
+        self.agent.message_logger.write_to_file("RECEIVE,{},{}".format(msg.get_metadata("message_id"), msg.sender))
         await self.process(msg)
         self.set_next_state("TRAIN")

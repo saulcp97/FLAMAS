@@ -69,12 +69,11 @@ def apply_consensus(own_weights, neighbour_weights, eps):
 
 
 
-def inference(model, loader):
+def inference(model, criterion, loader):
     """Returns the test accuracy and loss."""
     model.eval()
     loss, total, correct = 0.0, 0.0, 0.0
 
-    criterion = nn.NLLLoss()
     test_loader = loader
 
     batch_loss = []

@@ -34,6 +34,7 @@ class CentralAgent(Agent):
         self.contacts = []
         self.available_agents = []
         self.epsilon_logger = Logger("Logs/Epsilon Logs/" + self.name + ".csv", Config.EPSILON_LOGGER)
+        self.message_logger = Logger("Logs/Message Logs/" + self.name + ".csv", Config.MESSAGE_LOGGER)
     
     async def setup(self):
         self.state_machine_behaviour = StateMachineBehaviour()

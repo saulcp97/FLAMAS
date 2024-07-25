@@ -31,4 +31,5 @@ class Logger:
         """
         file = open(self.file_name, "a")
         file.write(str(datetime.datetime.now()) + "," + content + "\n")
+        #print(content)
         file.close()

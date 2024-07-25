@@ -51,7 +51,8 @@ class ReceiveState(State):
         while not stable:
             msg = await self.receive(timeout=Config.DEFAULT_TIMER)
             if msg is not None:
-                print(self.agent.available_agents)
+                #print(self.agent.available_agents)
+                self.agent.message_logger.write_to_file("RECEIVE,{},{}".format(msg.get_metadata("message_id"), msg.sender))
                 await self.msg_management(msg)
                 stable = len(self.agent.connectedNodes) == len(self.agent.partialWeights)
         self.agent.localEpoch += 1

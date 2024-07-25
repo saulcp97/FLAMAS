@@ -1,0 +1,6 @@
+time,send_or_recv,id,communicating_agent
+2024-07-25 18:25:26.870065,SEND,44af20a2-56fb-436d-ae54-dfb0ef6215a1,scp_Main_Node@localhost
+2024-07-25 18:25:26.873214,SEND,453e5f33-ca34-4909-bf09-9f94250fe888,scp_Main_Node@localhost
+2024-07-25 18:25:46.888369,RECEIVE,None,scp_main_node@localhost
+2024-07-25 18:26:33.328090,SEND,f48b9263-086a-4ae9-a45d-132edf74a15c,scp_Main_Node@localhost
+2024-07-25 18:26:53.341801,RECEIVE,ce2cc603-86d7-493d-aa05-5754e5d9102c,scp_main_node@localhost
