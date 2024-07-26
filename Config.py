@@ -24,6 +24,9 @@ data_set_path = "../data"
 CONSENSUS_LOGGER = "CONSENSUS_LOGGER"
 MESSAGE_LOGGER = "MESSAGE_LOGGER"
 
+# Max SPADE message body length (aioxmpp limit is 256 * 1024)
+max_message_body_length = 150_000
+
 
 #   Network Structures (8 miembros)
 # 4 coalitions 1~3 members each coalition

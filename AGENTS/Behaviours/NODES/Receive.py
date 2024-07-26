@@ -4,8 +4,17 @@ from spade.message import Message
 import time
 import pickle
 import codecs
+import Config
+
+from utils.MultipartHandler import MultipartHandler
+
 class ReceiveState(State):
-    
+
+    def __init__(self):
+        super().__init__()
+        self.multipart_handler = MultipartHandler()
+
+
     async def process(self, msg):
         if self.agent.weights is not None and msg.body.split("|")[0] != "None" and not msg.body.startswith("I don't"):
             # Process message
@@ -23,10 +32,17 @@ class ReceiveState(State):
 
 
     async def run(self):
-        msg = await self.receive(timeout=20) #Segundos
+        msg = None
 
-        while msg is None:
-            msg = await self.receive(timeout=20)
-        self.agent.message_logger.write_to_file("RECEIVE,{},{}".format(msg.get_metadata("message_id"), msg.sender))
-        await self.process(msg)
+        while True:
+            msg = await self.receive(timeout=Config.DEFAULT_TIMER)
+            multipart = self.multipart_handler.rebuild_multipart(msg)
+            if multipart is not None:
+                msg = multipart
+
+            if not self.multipart_handler.is_multipart(msg) or multipart is not None:
+                self.agent.message_logger.write_to_file("RECEIVE,{},{}".format(msg.get_metadata("message_id"), msg.sender))
+                await self.process(msg)
+                break
+
         self.set_next_state("TRAIN")

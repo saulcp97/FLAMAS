@@ -19,8 +19,15 @@ class TrainState(State):
         #Time esta incluido
         self.agent.training_logger.write_to_file(
             "{},{},{},{}".format(self.agent.train_acc, self.agent.train_loss, self.agent.test_acc, self.agent.test_loss))
+   
 
-        
+        #print(self.agent.weights, self.agent.weights.keys())
+        #self.agent.weight_logger.write_to_file(
+        #    "TRAINING,{},{},{},{}".format(self.agent.weights[0]['conv1.weight'].numpy().flatten()[0],
+        #                                  self.agent.weights[0]['conv1.bias'].numpy().flatten()[0],
+        #                                  self.agent.weights[0]['layer_hidden.weight'].numpy().flatten()[0],
+        #                                  self.agent.weights[0]['layer_hidden.bias'].numpy().flatten()[0]))
+
         self.agent.training_time_logger.write_to_file("STOP")
 
         #self.get_accuracy()

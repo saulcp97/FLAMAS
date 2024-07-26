@@ -31,8 +31,6 @@ def launch_agent_sync(agent):
         # Manejar el error de forma síncrona
         print(f"Error al iniciar el agente: {e}")
 
-
-
 async def main():
     data = Path('data/cifar100_subset.pth').resolve()
 
@@ -63,7 +61,7 @@ async def main():
         agents.append(NodeAgent(jid=jid_name, password=pswrdd, sjid=s0N, model=copy.deepcopy(model), dataTrain=datasetTr, dataTest=datasetTe))
     
     for agent in agents:
-        
+    
         t = threading.Thread(
             target= launch_agent_sync,
             args=[agent],
@@ -74,5 +72,4 @@ async def main():
         t.start()
 
 if __name__ == "__main__":
-    
     spade.run(main())

@@ -16,4 +16,5 @@ class PLOT(State):
         plt.show()
 
     async def run(self):
+        print("PLOT")
         self.plotLoss()
